@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Heading1, Heading2, Heading3 } from "../../styles/typography";
 
-const HomeLayout = ({ children }) => {
+const CommonLayout = ({ children }) => {
   return (
     <Container>
       <Aside />
@@ -16,7 +16,7 @@ const HomeLayout = ({ children }) => {
   );
 };
 
-export default HomeLayout;
+export default CommonLayout;
 
 const Aside = () => {
   return (
@@ -42,7 +42,7 @@ const Container = styled.div`
 
 const AsideContainer = styled.div`
   width: 300px;
-  background-color: #a27b5c;
+  background-color: #dee2e6;
   display: flex;
   flex-direction: column;
   align-items: center;
