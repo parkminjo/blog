@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Heading1, Heading2, Heading3 } from "../../styles/typography";
+import { Outlet } from "react-router-dom";
 
 const CommonLayout = ({ children }) => {
   return (
@@ -10,7 +11,7 @@ const CommonLayout = ({ children }) => {
         <HeaderBox>
           <Heading1>카테고리 제목</Heading1>
         </HeaderBox>
-        {children}
+        <Outlet />
       </MainBox>
     </Container>
   );

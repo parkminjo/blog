@@ -4,8 +4,11 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenNib } from "@fortawesome/free-solid-svg-icons";
 import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const goToTop = () => {
     window.scrollTo({
       top: 0,
@@ -17,7 +20,7 @@ const Home = () => {
     <Container>
       <PostList />
       <ButtonBox>
-        <WritePostButton>
+        <WritePostButton onClick={() => navigate("/post-editor")}>
           <FontAwesomeIcon icon={faPenNib} />
         </WritePostButton>
         <GoToTopButton onClick={goToTop}>
