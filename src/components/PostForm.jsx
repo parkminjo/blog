@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { addPost } from "../redux/slices/PostSlice";
 import { setUserInput } from "../redux/slices/PostInputSlice";
 import { useNavigate } from "react-router-dom";
+import { Slide, toast, ToastContainer } from "react-toastify";
 
 const PostForm = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,16 @@ const PostForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!userInput.title) {
+      toast.error("제목을 입력하세요");
+      return;
+    }
+    if (!userInput.content) {
+      toast.error("내용을 입력하세요");
+      return;
+    }
+
     dispatch(
       addPost({
         ...userInput,
@@ -36,15 +47,12 @@ const PostForm = () => {
         content: "",
       })
     );
+
+    navigate("/");
   };
 
   return (
-    <Container
-      onSubmit={() => {
-        handleSubmit;
-        navigate("/");
-      }}
-    >
+    <Container onSubmit={handleSubmit}>
       <Header></Header>
       <MainBox>
         <TitleInput
@@ -65,6 +73,12 @@ const PostForm = () => {
       <Footer>
         <AddButton>등록</AddButton>
       </Footer>
+      <ToastContainer
+        position="top-center"
+        newestOnTop={true}
+        autoClose={1000}
+        transition={Slide}
+      />
     </Container>
   );
 };

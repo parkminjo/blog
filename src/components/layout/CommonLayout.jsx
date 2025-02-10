@@ -1,15 +1,34 @@
 import React from "react";
 import styled from "styled-components";
-import { Heading1, Heading2, Heading3 } from "../../styles/typography";
-import { Outlet } from "react-router-dom";
+import {
+  BodyText,
+  Heading1,
+  Heading2,
+  Heading3,
+} from "../../styles/typography";
+import { Outlet, useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const CommonLayout = ({ children }) => {
+const CommonLayout = () => {
+  const [searchParams] = useSearchParams();
+  const queryId = parseInt(searchParams.get("id"));
+
+  const postList = useSelector((state) => state.postList);
+  const selectedPost = postList.find((post) => post.id === queryId);
+
   return (
     <Container>
       <Aside />
       <MainBox>
         <HeaderBox>
-          <Heading1>카테고리 제목</Heading1>
+          <Heading1 $marginBottom="10px">
+            {!queryId ? "전체 글" : selectedPost.title}
+          </Heading1>
+          {queryId ? (
+            <BodyText>
+              {new Date(selectedPost.date).toLocaleString("ko-KR")}
+            </BodyText>
+          ) : null}
         </HeaderBox>
         <Outlet />
       </MainBox>
@@ -38,7 +57,7 @@ const Aside = () => {
 const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 `;
 
 const AsideContainer = styled.div`

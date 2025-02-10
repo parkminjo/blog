@@ -4,7 +4,7 @@ import PostInputReducer from "../slices/PostInputSlice";
 
 export const store = configureStore({
   reducer: {
-    post: PostReducer,
+    postList: PostReducer,
     postInput: PostInputReducer,
   },
 });

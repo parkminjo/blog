@@ -35,6 +35,7 @@ export default Home;
 
 const Container = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const ButtonBox = styled.div`
