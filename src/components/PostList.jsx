@@ -1,16 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
-import {
-  BodyText,
-  CaptionText,
-  Heading1,
-  Heading2,
-} from "../styles/typography";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { BodyText, Heading2 } from "../styles/typography";
 
 const PostList = () => {
-  const postList = useSelector((state) => state.postList);
+  const postList = useSelector((state) => state.postList || []);
   const navigate = useNavigate();
 
   return (
@@ -47,6 +42,12 @@ const PostBox = styled.div`
   justify-content: center;
   height: 200px;
   cursor: pointer;
+
+  &:hover {
+    h2 {
+      color: #854836;
+    }
+  }
 `;
 
 const BodyTextBox = styled.div`

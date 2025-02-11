@@ -10,10 +10,16 @@ import { Outlet, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenNib, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenNib,
+  faTrash,
+  faChevronUp,
+  faPenToSquare,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { useNavigate } from "react-router-dom";
 import { removePost } from "../../redux/slices/PostSlice";
+import { setUserInput } from "../../redux/slices/PostInputSlice";
 
 const CommonLayout = () => {
   const navigate = useNavigate();
@@ -22,7 +28,7 @@ const CommonLayout = () => {
   const [searchParams] = useSearchParams();
   const queryId = parseInt(searchParams.get("id")) || null;
 
-  const postList = useSelector((state) => state.postList);
+  const postList = useSelector((state) => state.postList || []);
   const selectedPost = postList.find((post) => post.id === queryId) || {};
 
   const goToTop = () => {
@@ -35,6 +41,23 @@ const CommonLayout = () => {
   const handleDelete = (id) => {
     dispatch(removePost(id));
     navigate(-1);
+  };
+
+  const handleAddUpdate = () => {
+    /** 게시글 수정 */
+    if (queryId) {
+      dispatch(
+        setUserInput({
+          title: selectedPost.title,
+          content: selectedPost.content,
+        })
+      );
+      navigate(`/post-editor?id=${queryId}`);
+      return;
+    }
+
+    /** 게시글 추가 */
+    navigate("/post-editor");
   };
 
   return (
@@ -62,8 +85,12 @@ const CommonLayout = () => {
               <FontAwesomeIcon icon={faTrash} />
             </DeleteButton>
           ) : null}
-          <WritePostButton onClick={() => navigate("/post-editor")}>
-            <FontAwesomeIcon icon={faPenNib} />
+          <WritePostButton onClick={handleAddUpdate}>
+            {queryId ? (
+              <FontAwesomeIcon icon={faPenToSquare} />
+            ) : (
+              <FontAwesomeIcon icon={faPenNib} />
+            )}
           </WritePostButton>
           <GoToTopButton onClick={goToTop}>
             <FontAwesomeIcon icon={faChevronUp} />

@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { setUserInput } from "../redux/slices/PostInputSlice";
-import { addPost } from "../redux/slices/PostSlice";
+import { addPost, updatePost } from "../redux/slices/PostSlice";
 
 const PostForm = () => {
   const API_KEY =
@@ -13,6 +13,9 @@ const PostForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInput = useSelector((state) => state.postInput);
+
+  const [searchParams] = useSearchParams();
+  const queryId = parseInt(searchParams.get("id")) || null;
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -36,22 +39,39 @@ const PostForm = () => {
       return;
     }
 
-    dispatch(
-      addPost({
-        ...userInput,
-        id: new Date().getTime(),
-        date: new Date().toISOString(),
-      })
-    );
+    /** 게시글 추가 및 등록 */
+    if (!queryId) {
+      dispatch(
+        addPost({
+          ...userInput,
+          id: new Date().getTime(),
+          date: new Date().toISOString(),
+        })
+      );
 
-    dispatch(
-      setUserInput({
-        title: "",
-        content: "",
-      })
-    );
+      dispatch(
+        setUserInput({
+          title: "",
+          content: "",
+        })
+      );
+      navigate("/");
+    } else {
+      dispatch(
+        updatePost({
+          ...userInput,
+          id: queryId,
+        })
+      );
 
-    navigate("/");
+      dispatch(
+        setUserInput({
+          title: "",
+          content: "",
+        })
+      );
+      navigate("/");
+    }
   };
 
   return (
@@ -74,7 +94,7 @@ const PostForm = () => {
         />
       </MainBox>
       <Footer>
-        <AddButton>등록</AddButton>
+        <AddButton>{queryId ? "수정" : "등록"}</AddButton>
       </Footer>
       <ToastContainer
         position="top-center"
