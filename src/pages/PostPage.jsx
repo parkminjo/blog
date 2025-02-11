@@ -6,10 +6,10 @@ import { BodyText } from "../styles/typography";
 
 const PostPage = () => {
   const [searchParams] = useSearchParams();
-  const queryId = parseInt(searchParams.get("id"));
+  const queryId = parseInt(searchParams.get("id")) || null;
 
   const postList = useSelector((state) => state.postList);
-  const selectedPost = postList.find((post) => post.id === queryId);
+  const selectedPost = postList.find((post) => post.id === queryId) || {};
 
   return (
     <PostPageContainer>

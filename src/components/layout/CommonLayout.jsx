@@ -7,14 +7,35 @@ import {
   Heading3,
 } from "../../styles/typography";
 import { Outlet, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenNib, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { removePost } from "../../redux/slices/PostSlice";
 
 const CommonLayout = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [searchParams] = useSearchParams();
-  const queryId = parseInt(searchParams.get("id"));
+  const queryId = parseInt(searchParams.get("id")) || null;
 
   const postList = useSelector((state) => state.postList);
-  const selectedPost = postList.find((post) => post.id === queryId);
+  const selectedPost = postList.find((post) => post.id === queryId) || {};
+
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  const handleDelete = (id) => {
+    dispatch(removePost(id));
+    navigate(-1);
+  };
 
   return (
     <Container>
@@ -22,7 +43,11 @@ const CommonLayout = () => {
       <MainBox>
         <HeaderBox>
           <Heading1 $marginBottom="10px">
-            {!queryId ? "전체 글" : selectedPost.title}
+            {!queryId
+              ? "전체 글"
+              : selectedPost
+              ? selectedPost.title
+              : "게시글 없음"}
           </Heading1>
           {queryId ? (
             <BodyText>
@@ -31,12 +56,51 @@ const CommonLayout = () => {
           ) : null}
         </HeaderBox>
         <Outlet />
+        <ButtonBox>
+          {queryId ? (
+            <DeleteButton onClick={() => handleDelete(queryId)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </DeleteButton>
+          ) : null}
+          <WritePostButton onClick={() => navigate("/post-editor")}>
+            <FontAwesomeIcon icon={faPenNib} />
+          </WritePostButton>
+          <GoToTopButton onClick={goToTop}>
+            <FontAwesomeIcon icon={faChevronUp} />
+          </GoToTopButton>
+        </ButtonBox>
       </MainBox>
     </Container>
   );
 };
 
 export default CommonLayout;
+
+const ButtonBox = styled.div`
+  position: fixed;
+  bottom: 35px;
+  right: 35px;
+  display: flex;
+  gap: 10px;
+`;
+
+const CommonButton = styled.button`
+  width: 50px;
+  height: 50px;
+  font-size: 20px;
+  border: none;
+  background-color: #dee2e6;
+  border-radius: 2rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #bfc2c4;
+  }
+`;
+
+const WritePostButton = styled(CommonButton)``;
+const GoToTopButton = styled(CommonButton)``;
+const DeleteButton = styled(CommonButton)``;
 
 const Aside = () => {
   return (

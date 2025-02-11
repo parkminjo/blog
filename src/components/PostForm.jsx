@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { addPost } from "../redux/slices/PostSlice";
-import { setUserInput } from "../redux/slices/PostInputSlice";
 import { useNavigate } from "react-router-dom";
 import { Slide, toast, ToastContainer } from "react-toastify";
+import styled from "styled-components";
+import { setUserInput } from "../redux/slices/PostInputSlice";
+import { addPost } from "../redux/slices/PostSlice";
 
 const PostForm = () => {
+  const API_KEY =
+    "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImM1ODc4NzZmLWI0YzMtNDdlYS05ODk3LThjNGI3ZmQ2N2I2MyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjUyMGVjY2NjIn0.adO9RNrpTTTEzRIc8qVApdeLWyFAoPeUGBGj0X6G-HG5KA8S43WdqusjxpvcbxIhub7PX-orDbYzM6Nc75s7ng";
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInput = useSelector((state) => state.postInput);
@@ -95,10 +98,9 @@ const Container = styled.form`
 
 const Header = styled.div`
   width: 100%;
-  height: 60px;
-  background-color: black;
+  /* height: 60px;
   box-sizing: border-box;
-  padding: 0 2rem 0 2rem;
+  padding: 0 2rem 0 2rem; */
 `;
 
 const MainBox = styled.div`

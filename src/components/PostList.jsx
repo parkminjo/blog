@@ -28,7 +28,7 @@ const PostList = () => {
             </BodyText>
 
             <BodyTextBox>
-              <BodyText>{post.content}</BodyText>
+              <BodyText>{post.content.slice(0, 300)}</BodyText>
             </BodyTextBox>
           </PostBox>
         );
@@ -50,6 +50,5 @@ const PostBox = styled.div`
 `;
 
 const BodyTextBox = styled.div`
-  max-height: 90px;
   overflow: hidden;
 `;
