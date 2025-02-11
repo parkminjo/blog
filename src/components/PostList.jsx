@@ -22,7 +22,9 @@ const PostList = () => {
             </BodyText>
 
             <BodyTextBox>
-              <BodyText>{post.content.slice(0, 300)}</BodyText>
+              <BodyText>
+                {post.content.replace(/<[^>]*>/g, "").slice(0, 300)}
+              </BodyText>
             </BodyTextBox>
           </PostBox>
         );

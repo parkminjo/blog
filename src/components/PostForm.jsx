@@ -4,7 +4,6 @@ import { Slide, toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { setUserInput } from "../redux/slices/PostInputSlice";
 import { addPost, updatePost } from "../redux/slices/PostSlice";
-import Editor from "./Editor";
 
 const PostForm = () => {
   const dispatch = useDispatch();
@@ -63,8 +62,6 @@ const PostForm = () => {
 
   return (
     <Container onSubmit={handleSubmit}>
-      <Header></Header>
-      <Editor />
       <Footer>
         <AddButton>{queryId ? "수정" : "등록"}</AddButton>
       </Footer>
@@ -86,13 +83,6 @@ const Container = styled.form`
   flex-direction: column;
   align-items: center;
   background-color: #dee2e6;
-`;
-
-const Header = styled.div`
-  width: 100%;
-  /* height: 60px;
-  box-sizing: border-box;
-  padding: 0 2rem 0 2rem; */
 `;
 
 const Footer = styled.div`

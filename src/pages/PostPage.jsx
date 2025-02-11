@@ -12,7 +12,9 @@ const PostPage = () => {
 
   return (
     <PostPageContainer>
-      <BodyText>{selectedPost.content}</BodyText>
+      <BodyText>
+        {selectedPost?.content?.replace(/<[^>]*>/g, "") || ""}
+      </BodyText>
     </PostPageContainer>
   );
 };
