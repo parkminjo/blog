@@ -1,31 +1,18 @@
-import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Slide, toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import { setUserInput } from "../redux/slices/PostInputSlice";
 import { addPost, updatePost } from "../redux/slices/PostSlice";
+import Editor from "./Editor";
 
 const PostForm = () => {
-  const API_KEY =
-    "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDA1Mjc5OTksImp0aSI6ImM1ODc4NzZmLWI0YzMtNDdlYS05ODk3LThjNGI3ZmQ2N2I2MyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjUyMGVjY2NjIn0.adO9RNrpTTTEzRIc8qVApdeLWyFAoPeUGBGj0X6G-HG5KA8S43WdqusjxpvcbxIhub7PX-orDbYzM6Nc75s7ng";
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userInput = useSelector((state) => state.postInput);
 
   const [searchParams] = useSearchParams();
   const queryId = parseInt(searchParams.get("id")) || null;
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    dispatch(
-      setUserInput({
-        ...userInput,
-        [id]: value,
-      })
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -77,22 +64,7 @@ const PostForm = () => {
   return (
     <Container onSubmit={handleSubmit}>
       <Header></Header>
-      <MainBox>
-        <TitleInput
-          type="text"
-          id="title"
-          placeholder="제목"
-          value={userInput.title}
-          onChange={handleChange}
-        />
-        <ContentInput
-          type="text"
-          id="content"
-          placeholder="내용"
-          value={userInput.content}
-          onChange={handleChange}
-        />
-      </MainBox>
+      <Editor />
       <Footer>
         <AddButton>{queryId ? "수정" : "등록"}</AddButton>
       </Footer>
@@ -121,33 +93,6 @@ const Header = styled.div`
   /* height: 60px;
   box-sizing: border-box;
   padding: 0 2rem 0 2rem; */
-`;
-
-const MainBox = styled.div`
-  width: 900px;
-  flex: 1;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  padding: 3rem;
-`;
-
-const TitleInput = styled.input`
-  width: 100%;
-  border: none;
-  background-color: transparent;
-  height: 50px;
-  font-size: 32px;
-`;
-const ContentInput = styled.textarea`
-  width: 100%;
-  border: none;
-  background-color: transparent;
-  flex: 1;
-  font-size: 16px;
-  margin-top: 1rem;
 `;
 
 const Footer = styled.div`
